@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.RoomWarnings;
 
 import java.util.List;
 
@@ -28,7 +29,15 @@ public interface RecipeDao {
      *
      * @return
      */
-    @Query("SELECT id,name,servings,image FROM recipe_table")
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT id,name,servings,image,steps FROM recipe_table")
     LiveData<List<Recipe>> getRecipeDetailsLiveData();
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT id,steps FROM recipe_table where id=:id")
+    LiveData<List<Recipe>> getStepsLiveData(int id);
+
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT id,ingredients FROM recipe_table where id=:recipe_id")
+    List<Recipe> getIngredients(int recipe_id);
 }

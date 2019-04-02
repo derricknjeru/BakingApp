@@ -41,19 +41,23 @@ dependencies {
 
     // retrofit, gson
     implementation "com.google.code.gson:gson:${libraries.gson}"
+
+    // Third-party libraries
     implementation "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${libraries.retrofitConvertor}"
-
     implementation "com.squareup.picasso:picasso:${libraries.picasso}"
+    implementation "com.google.android.exoplayer:exoplayer-core:${libraries.exo_player_v}"
+    implementation "com.google.android.exoplayer:exoplayer-dash:${libraries.exo_player_v}"
+    implementation "com.google.android.exoplayer:exoplayer-ui:${libraries.exo_player_v}"
 
     //Room
     implementation "android.arch.persistence.room:runtime:${libraries.room}"
     implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor "android.arch.persistence.room:compiler:${libraries.room}"
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:${libraries.lifecycle}"
-
     implementation "com.android.support.constraint:constraint-layout:${libraries.constraint_layout}"
 
     //Testing dependencies

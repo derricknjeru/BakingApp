@@ -1,11 +1,10 @@
 package com.derrick.bakingapp.UI.main;
 
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -13,22 +12,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.derrick.bakingapp.R;
-import com.derrick.bakingapp.data.local.Recipe;
 import com.derrick.bakingapp.databinding.FragmentMainBinding;
 import com.derrick.bakingapp.utils.InjectorUtils;
 import com.derrick.bakingapp.utils.LogUtils;
 
-import java.util.List;
-
 /**
  * A simple {@link MainFragment}
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements RecipeListAdapter.RecipeCLickListener {
 
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
     FragmentMainBinding binding;
 
     private RecipeListAdapter mListAdapter;
+
+    OnRecipeClickListener mCallBack;
+
+    public interface OnRecipeClickListener {
+        void itemSelected(int recipeId,String title);
+    }
 
     public MainFragment() {
         // Required empty public constructor
@@ -44,7 +46,6 @@ public class MainFragment extends Fragment {
         initializeViews();
 
         fetchRecipes();
-
 
         // Inflate the layout for this fragment
         return binding.getRoot();
@@ -68,6 +69,24 @@ public class MainFragment extends Fragment {
         binding.mainList.setAdapter(mListAdapter);
         binding.mainList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.mainList.setHasFixedSize(true);
+
+        mListAdapter.setRecipeCLickListener(this);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        //This makes sure the host activity has implemented the callback interface
+        //if not it throws an exception
+        try {
+            mCallBack = (OnRecipeClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "Must implement OnRecipeClickListener");
+        }
+    }
+
+    @Override
+    public void onClickListener(int id,String title) {
+        mCallBack.itemSelected(id,title);
+    }
 }

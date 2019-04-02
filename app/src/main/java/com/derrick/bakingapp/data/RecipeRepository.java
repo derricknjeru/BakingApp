@@ -1,6 +1,7 @@
 package com.derrick.bakingapp.data;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.derrick.bakingapp.data.local.Recipe;
@@ -29,7 +30,6 @@ public class RecipeRepository {
         mRecipeNetworkDatasource = networkDataSource;
         mAppExecutors = executors;
         mContext = context;
-
         saveRecipe();
     }
 
@@ -38,7 +38,6 @@ public class RecipeRepository {
         mRecipeLiveData.observeForever(recipes -> mAppExecutors.diskIO().execute(() -> {
             long[] insert = mRecipeDao.bulkInsertRecipes(recipes);
             LogUtils.showLog(LOG_TAG, "@Recipe insert::" + insert);
-
         }));
     }
 
@@ -56,6 +55,14 @@ public class RecipeRepository {
     public LiveData<List<Recipe>> fetchRecipe() {
         initializeData();
         return mRecipeDao.getRecipeDetailsLiveData();
+    }
+
+    public LiveData<List<Recipe>> fetchSteps(int id) {
+        return mRecipeDao.getStepsLiveData(id);
+    }
+
+    public LiveData<List<Recipe>> fetchStepSpecific(int id) {
+        return mRecipeDao.getStepsLiveData(id);
     }
 
     /**
@@ -83,4 +90,7 @@ public class RecipeRepository {
         return mRecipeDao.getAllRecipes() != null && mRecipeDao.getAllRecipes().size() > 0;
     }
 
+    public List<Recipe> fetIngredients(int recipe_id) {
+        return mRecipeDao.getIngredients(recipe_id);
+    }
 }

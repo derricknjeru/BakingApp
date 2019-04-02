@@ -2,4 +2,11 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="recipe_title_size">20sp</dimen>
     <dimen name="layout_margin">16dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="title_dimen">24sp</dimen>
+    <dimen name="step_title_size">20sp</dimen>
+    <dimen name="steps_top">32dp</dimen>
+    <dimen name="ingredient_dimen">16sp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="arrows_width_height">30dp</dimen>
 </resources>

@@ -2,7 +2,9 @@ package com.derrick.bakingapp.utils;
 
 import android.content.Context;
 
+import com.derrick.bakingapp.UI.details.MasterListViewModelFactory;
 import com.derrick.bakingapp.UI.main.MainViewModelFactory;
+import com.derrick.bakingapp.UI.steps.StepsFragmentViewModelFactory;
 import com.derrick.bakingapp.data.RecipeRepository;
 import com.derrick.bakingapp.data.local.RecipeDatabase;
 import com.derrick.bakingapp.data.network.RecipeNetworkDataSource;
@@ -30,6 +32,15 @@ public class InjectorUtils {
     public static MainViewModelFactory provideMainViewModelFactory(Context context) {
         RecipeRepository repository = provideRepository(context.getApplicationContext());
         return new MainViewModelFactory(repository);
+    }
+
+    public static MasterListViewModelFactory provideMasterListViewModelFactory(Context context, int id) {
+        RecipeRepository repository = provideRepository(context.getApplicationContext());
+        return new MasterListViewModelFactory(repository, id);
+    }
+    public static StepsFragmentViewModelFactory provideStepsFragmentViewModelFactory(Context context, int id) {
+        RecipeRepository repository = provideRepository(context.getApplicationContext());
+        return new StepsFragmentViewModelFactory(repository, id);
     }
 
 

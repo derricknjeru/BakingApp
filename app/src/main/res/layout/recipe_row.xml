@@ -5,19 +5,43 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:foreground="?android:selectableItemBackground">
 
         <TextView
             android:id="@+id/recipe_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
             android:fontFamily="@font/roboto"
             android:textSize="@dimen/recipe_title_size"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/title_end"
+            app:layout_constraintStart_toEndOf="@+id/title_end"
+            app:layout_constraintTop_toTopOf="@+id/title_end"
+            tools:text="@string/recipe_dummy_title" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:background="?android:listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_end" />
+
+        <ImageView
+            android:id="@+id/title_end"
+            android:layout_width="@dimen/title_dimen"
+            android:layout_height="@dimen/title_dimen"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:contentDescription="@string/title_letter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/recipe_dummy_title" />
+            android:background="@drawable/rounded_drawable"
+            tools:srcCompat="@tools:sample/avatars" />
     </android.support.constraint.ConstraintLayout>
 </layout>
