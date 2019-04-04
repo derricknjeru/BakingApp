@@ -52,8 +52,7 @@ dependencies {
 
     //Room
     implementation "android.arch.persistence.room:runtime:${libraries.room}"
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "com.android.support:support-v4:${libraries.supportVersion}"
     annotationProcessor "android.arch.persistence.room:compiler:${libraries.room}"
 
     // ViewModel and LiveData

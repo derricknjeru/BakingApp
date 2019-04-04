@@ -14,13 +14,12 @@ import android.view.ViewGroup;
 import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Step;
 import com.derrick.bakingapp.databinding.FragmentMasterListBinding;
+import com.derrick.bakingapp.utils.BakingPreference;
 import com.derrick.bakingapp.utils.InjectorUtils;
 import com.derrick.bakingapp.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.derrick.bakingapp.UI.details.DetailsActivity.EXTRA_DATA;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,12 +34,14 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.On
     OnMasterListStepCLick mCallBack;
 
     public interface OnMasterListStepCLick {
-        void OnStepClicked(int pos, long step_id, int total_steps);
+        void OnStepClicked(int pos, long step_id);
     }
 
 
     public MasterListFragment() {
         // Required empty public constructor
+
+
     }
 
 
@@ -66,14 +67,16 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.On
         mViewModel.getStepsListLiveData().observe(this, recipeList -> {
             if (recipeList != null && recipeList.size() > 0) {
                 //will always be one
-                LogUtils.showLog(LOG_TAG, "@Master list size::" + recipeList.size());
+
                 mStepList = recipeList.get(0).getSteps();
                 mMasterListAdapter.setStepList(mStepList, recipeId);
-
+                LogUtils.showLog(LOG_TAG, "@Master list size::" + mStepList.size());
 
             }
 
+
         });
+
     }
 
     private void initializeViews() {
@@ -87,16 +90,15 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.On
     }
 
     private void getRecipeId() {
-        if (getActivity().getIntent() != null) {
-            recipeId = getActivity().getIntent().getIntExtra(EXTRA_DATA, -1);
-        }
+        recipeId = BakingPreference.getStepRecipeIdQuery(getActivity());
         LogUtils.showLog(LOG_TAG, "@MasterList recipeId::" + recipeId);
     }
 
     @Override
     public void OnStepClicked(int pos, long step_id) {
 
-        mCallBack.OnStepClicked(pos - 1, recipeId, mStepList.size());
+        mCallBack.OnStepClicked(pos - 1, recipeId);
+
     }
 
     @Override

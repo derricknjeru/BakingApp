@@ -7,8 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/steps_top"
-        android:background="@android:color/white"
-        android:foreground="?android:selectableItemBackground">
+        android:background="@drawable/list_selector">
 
         <TextView
             android:id="@+id/step_title"

@@ -4,14 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".UI.details.DetailsActivity"
     tools:showIn="@layout/activity_details">
 
+    <!--
+   This layout is a two-pane layout for the master/detail flow.
+   -->
+
+    <!-- The static MasterListFragment -->
     <fragment
         android:id="@+id/master_list_fragment"
         android:name="com.derrick.bakingapp.UI.details.MasterListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/layout_margin" />
 
+    <!-- A small divider -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+
+    <!-- LinearLayout that arranges stepper fragment -->
+    <LinearLayout
+        android:id="@+id/steps"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/layout_margin"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/step_frag_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside" />
+    </LinearLayout>
 </LinearLayout>

@@ -59,7 +59,7 @@ public class BakingPreference {
 
         String keyForTotalStep = context.getString(R.string.pref_tittle_step_key);
 
-        return prefs.getString(keyForTotalStep,"");
+        return prefs.getString(keyForTotalStep, "");
 
     }
 
@@ -75,4 +75,30 @@ public class BakingPreference {
 
         editor.commit();
     }
+
+
+    public static int getStepRecipeIdQuery(Context context) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        String keyForStep = context.getString(R.string.pref_step_recipe_key);
+
+        return prefs.getInt(keyForStep, -1);
+
+    }
+
+    public static void setStepRecipeQuery(Context context, int recipe) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String keyForStep = context.getString(R.string.pref_step_recipe_key);
+
+        editor.putInt(keyForStep, recipe);
+
+        editor.commit();
+    }
+
+
 }

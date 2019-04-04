@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.UI.details.DetailsActivity;
+import com.derrick.bakingapp.utils.BakingPreference;
 import com.derrick.bakingapp.utils.LogUtils;
 
 import static com.derrick.bakingapp.UI.details.DetailsActivity.*;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnRe
     public void itemSelected(int recipeId, String title) {
         LogUtils.showLog(LOG_TAG, "@Listener recipeId::" + recipeId);
         Intent i = new Intent(MainActivity.this, DetailsActivity.class);
-        i.putExtra(EXTRA_DATA, recipeId);
+        BakingPreference.setStepRecipeQuery(this, recipeId);
         i.putExtra(EXTRA_TITLE, title);
         startActivity(i);
     }

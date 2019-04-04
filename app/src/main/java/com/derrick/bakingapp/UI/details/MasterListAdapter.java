@@ -2,12 +2,14 @@ package com.derrick.bakingapp.UI.details;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
+import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Ingredient;
 import com.derrick.bakingapp.data.local.Recipe;
 import com.derrick.bakingapp.data.local.Step;
@@ -29,6 +31,9 @@ public class MasterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int mRecipeId;
     AppExecutors mAppExecutors;
     FragmentActivity mActivity;
+    int selectedPosition = -1;
+
+    private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
     public void setOnStepClickListener(OnStepClickListener mOnStepClickListener) {
         this.mOnStepClickListener = mOnStepClickListener;
@@ -52,6 +57,7 @@ public class MasterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private List<Step> mStepList;
+
 
     @NonNull
     @Override
@@ -91,11 +97,28 @@ public class MasterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mRowBinding.stepTitle.setText(step.getShortDescription());
         }
 
+        setRowBackgroundColor(mRowBinding, pos);
+
         mRowBinding.getRoot().setOnClickListener(v -> {
             mOnStepClickListener.OnStepClicked(pos, step.getId());
             BakingPreference.setSetterTitle(mActivity, step.getShortDescription());
+
+            selectedPosition = pos;
+            notifyDataSetChanged();
+
         });
 
+    }
+
+
+    private void setRowBackgroundColor(MasterListStepsRowBinding mRowBinding, int pos) {
+        if (selectedPosition == pos) {
+            mRowBinding.getRoot().setBackgroundColor(ContextCompat.getColor(mRowBinding.getRoot().getContext(), R.color.row_activated));
+        } else if (selectedPosition == -1 && pos == 1) {
+            mRowBinding.getRoot().setBackgroundColor(ContextCompat.getColor(mRowBinding.getRoot().getContext(), R.color.row_activated));
+        } else {
+            mRowBinding.getRoot().setBackgroundColor(ContextCompat.getColor(mRowBinding.getRoot().getContext(), R.color.white));
+        }
     }
 
     private void displayIngredients(RecyclerView.ViewHolder holder, int recipe_id) {
@@ -163,4 +186,15 @@ public class MasterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mRowBinding = rowBinding;
         }
     }
+
+    public void toggleSelection(int pos) {
+        selectedPosition = pos;
+        if (selectedItems.get(pos, false)) {
+            selectedItems.delete(pos);
+        } else {
+            selectedItems.put(pos, true);
+        }
+        notifyItemChanged(pos);
+    }
+
 }

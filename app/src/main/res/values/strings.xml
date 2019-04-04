@@ -3,14 +3,12 @@
     <string name="action_settings">Settings</string>
     <string name="recipe_dummy_title" translatable="false">Recipe Name</string>
 
-    <string name="home_name">Baking App</string>
+    <string name="home_name" translatable="false">Baking App</string>
     <string name="array_key" translatable="false">array</string>
     <string name="color_key" translatable="false">mdcolor_500</string>
     <string name="title_letter">title letter</string>
-    <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_details" translatable="false">DetailsActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="short_desc">Short description</string>
     <string name="ingredient_tool">Ingredient</string>
     <string name="ingredients">Ingredients</string>
@@ -19,9 +17,10 @@
     <string name="steps_button">0/12</string>
     <string name="of">/</string>
     <string name="pref_step_key">step_pos_key</string>
+    <string name="pref_step_recipe_key">step_recipe_key</string>
     <string name="pref_total_step_key">total_step_pos_key</string>
     <string name="pref_tittle_step_key">title_step_pos_key</string>
     <string name="go_left">Go left</string>
     <string name="go_right">Go right</string>
-    <string name="media_url_mp4">https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4</string>
+    <string name="mp_4">https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4</string>
 </resources>

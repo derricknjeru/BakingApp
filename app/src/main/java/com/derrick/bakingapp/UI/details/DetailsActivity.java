@@ -2,16 +2,15 @@ package com.derrick.bakingapp.UI.details;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.UI.steps.StepsActivity;
+import com.derrick.bakingapp.UI.steps.StepsFragment;
+import com.derrick.bakingapp.utils.BakingPreference;
 import com.derrick.bakingapp.utils.LogUtils;
-
-import static com.derrick.bakingapp.UI.steps.StepsActivity.EXTRA_ID;
-import static com.derrick.bakingapp.UI.steps.StepsActivity.EXTRA_POS;
-import static com.derrick.bakingapp.UI.steps.StepsActivity.EXTRA_TOTAL_STEPS;
 
 public class DetailsActivity extends AppCompatActivity implements MasterListFragment.OnMasterListStepCLick {
 
@@ -22,7 +21,7 @@ public class DetailsActivity extends AppCompatActivity implements MasterListFrag
 
     // Track whether to display a two-pane or single-pane UI
     // A single-pane display refers to phone screens, and two-pane to larger tablet screens
-    private boolean mTwoPane;
+    private boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,28 +35,58 @@ public class DetailsActivity extends AppCompatActivity implements MasterListFrag
             title = getIntent().getStringExtra(EXTRA_TITLE);
         }
 
+        isTablet = getResources().getBoolean(R.bool.isTablet);
+
+        if (isTablet) {
+            if (savedInstanceState == null) {
+                AddStepperListFragment();
+            }
+        }
+
         getSupportActionBar().setTitle(title);
 
     }
 
+    private void AddStepperListFragment() {
+
+        BakingPreference.setStepQuery(this, 0);
+
+        // In two-pane mode, add initial BodyPartFragments to the screen
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a new Master list fragment
+        StepsFragment stepsFragment = new StepsFragment();
+
+        // Add the fragment to its container using a transaction
+        fragmentManager.beginTransaction()
+                .add(R.id.step_frag_container, stepsFragment)
+                .commit();
+    }
+
     @Override
-    public void OnStepClicked(int pos, long recipe_id, int total_steps) {
+    public void OnStepClicked(int pos, long recipe_id) {
 
         LogUtils.showLog(LOG_TAG, "@Details OnStepClicked pos::" + pos + " id::" + recipe_id);
-        if (mTwoPane) {
 
+        BakingPreference.setStepQuery(this, pos);
+
+        if (isTablet) {
+
+            // In two-pane mode, add initial BodyPartFragments to the screen
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            // Creating a new Master list fragment
+            StepsFragment stepsFragment = new StepsFragment();
+
+            // Add the fragment to its container using a transaction
+            fragmentManager.beginTransaction()
+                    .replace(R.id.step_frag_container, stepsFragment)
+                    .commit();
         } else {
-            // Put this information in a Bundle and attach it to an Intent that will launch an AndroidMeActivity
-            Bundle b = new Bundle();
-            b.putInt(EXTRA_POS, pos);
-            b.putLong(EXTRA_ID, recipe_id);
-            b.putInt(EXTRA_TOTAL_STEPS, total_steps);
-
-            // Attach the Bundle to an intent
             Intent intent = new Intent(this, StepsActivity.class);
-            intent.putExtras(b);
             startActivity(intent);
         }
 
     }
+
 }

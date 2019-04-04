@@ -9,4 +9,8 @@
     <dimen name="ingredient_dimen">16sp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="arrows_width_height">30dp</dimen>
+    <dimen name="card_height">250dp</dimen>
+    <dimen name="card_radius">4dp</dimen>
+    <dimen name="thumbnail_height">100dp</dimen>
+    <dimen name="title_margin">32dp</dimen>
 </resources>

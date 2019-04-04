@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".UI.steps.StepsActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".UI.details.DetailsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
