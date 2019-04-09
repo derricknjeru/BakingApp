@@ -101,4 +101,47 @@ public class BakingPreference {
     }
 
 
+    public static String getDisplayedWidget(Context context) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        String keyForTotalWidget = context.getString(R.string.pref_widget_key);
+
+        return prefs.getString(keyForTotalWidget, context.getString(R.string.default_widget_recipe));
+    }
+
+    public static void setWidgetName(Context context, String widget_name) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String keyForTotalWidget = context.getString(R.string.pref_widget_key);
+
+        editor.putString(keyForTotalWidget, widget_name);
+
+        editor.commit();
+    }
+
+    public static String getSavedJson(Context context) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        String keyForTotalJson = context.getString(R.string.pref_json_key);
+
+        return prefs.getString(keyForTotalJson, "");
+    }
+
+    public static void saveJsonName(Context context, String json) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String keyForTotalWidget = context.getString(R.string.pref_json_key);
+
+        editor.putString(keyForTotalWidget, json);
+
+        editor.commit();
+    }
 }

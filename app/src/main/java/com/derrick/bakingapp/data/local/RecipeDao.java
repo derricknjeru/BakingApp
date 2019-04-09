@@ -40,4 +40,21 @@ public interface RecipeDao {
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT id,ingredients FROM recipe_table where id=:recipe_id")
     List<Recipe> getIngredients(int recipe_id);
+
+    /**
+     * getting specific column from the table
+     *
+     * @param name
+     * @return
+     */
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT * FROM recipe_table where name=:name")
+    LiveData<List<Recipe>> getRecipeWidgetDetailsLiveData(String name);
+
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT name FROM recipe_table where id=:recipe_id")
+    String getName(int recipe_id);
+
+    @Query("SELECT id FROM recipe_table where id=:name")
+    int getId(String name);
 }

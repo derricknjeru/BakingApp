@@ -1,7 +1,6 @@
 package com.derrick.bakingapp.data;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.derrick.bakingapp.data.local.Recipe;
@@ -57,6 +56,10 @@ public class RecipeRepository {
         return mRecipeDao.getRecipeDetailsLiveData();
     }
 
+    public LiveData<List<Recipe>> fetchWidgetRecipe(String name) {
+        return mRecipeDao.getRecipeWidgetDetailsLiveData(name);
+    }
+
     public LiveData<List<Recipe>> fetchSteps(int id) {
         return mRecipeDao.getStepsLiveData(id);
     }
@@ -92,5 +95,13 @@ public class RecipeRepository {
 
     public List<Recipe> fetIngredients(int recipe_id) {
         return mRecipeDao.getIngredients(recipe_id);
+    }
+
+    public String currentRecipeName(int recipe_id) {
+        return mRecipeDao.getName(recipe_id);
+    }
+
+    public int fetchId(String name) {
+        return mRecipeDao.getId(name);
     }
 }

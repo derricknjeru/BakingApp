@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/main_widget_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="@dimen/layout_margin">
+
+    <TextView
+        android:id="@+id/widget_recipe_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        tool:text="Brownies" />
+
+    <ListView
+        android:id="@+id/appwidget_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/widget_recipe_title"
+        android:clickable="true"
+        android:divider="@color/white" />
+
+</RelativeLayout>

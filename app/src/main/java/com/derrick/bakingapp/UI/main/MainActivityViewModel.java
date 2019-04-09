@@ -13,9 +13,6 @@ import java.util.List;
  */
 
 public class MainActivityViewModel extends ViewModel {
-
-    private static final String LOG_TAG = MainActivityViewModel.class.getSimpleName();
-
     private LiveData<List<Recipe>> mRecipeListLiveData;
 
     public MainActivityViewModel(RecipeRepository repository) {

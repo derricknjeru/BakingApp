@@ -3,6 +3,7 @@
     package="com.derrick.bakingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name=".widget.BakingAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_info" />
+        </receiver>
+
         <activity
             android:name=".UI.steps.StepsActivity"
             android:launchMode="singleTop"
@@ -45,6 +57,13 @@
         <service
             android:name=".data.network.RecipeIntentService"
             android:exported="false" />
+        <service
+            android:name=".widget.WidgetIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".widget.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

@@ -3,28 +3,39 @@ package com.derrick.bakingapp.UI.details;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Step;
 import com.derrick.bakingapp.databinding.FragmentMasterListBinding;
+import com.derrick.bakingapp.utils.AppExecutors;
 import com.derrick.bakingapp.utils.BakingPreference;
 import com.derrick.bakingapp.utils.InjectorUtils;
 import com.derrick.bakingapp.utils.LogUtils;
+import com.derrick.bakingapp.widget.WidgetIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.derrick.bakingapp.widget.WidgetIntentService.UPDATE_THE_WIDGET;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MasterListFragment extends Fragment implements MasterListAdapter.OnStepClickListener {
+public class MasterListFragment extends Fragment implements MasterListAdapter.OnStepClickListener{
     private static final String LOG_TAG = MasterListFragment.class.getSimpleName();
     private int recipeId;
     private FragmentMasterListBinding binding;
@@ -37,6 +48,11 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.On
         void OnStepClicked(int pos, long step_id);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     public MasterListFragment() {
         // Required empty public constructor
@@ -101,6 +117,7 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.On
 
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -113,4 +130,25 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.On
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.details_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add_widget) {
+            AppExecutors.getInstance().diskIO().execute(() -> {
+                String name = InjectorUtils.provideRepository(getActivity()).currentRecipeName(recipeId);
+                LogUtils.showLog(LOG_TAG, "@widget Selected name" + name);
+                BakingPreference.setWidgetName(getActivity(), name);
+                Intent i = new Intent();
+                i.setAction(UPDATE_THE_WIDGET);
+                WidgetIntentService.enqueueWork(getActivity(), i);
+            });
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

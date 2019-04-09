@@ -18,7 +18,6 @@ import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Recipe;
 import com.derrick.bakingapp.databinding.FragmentMainBinding;
 import com.derrick.bakingapp.utils.BakingPreference;
-import com.derrick.bakingapp.utils.GridSpacingItemDecoration;
 import com.derrick.bakingapp.utils.InjectorUtils;
 import com.derrick.bakingapp.utils.LogUtils;
 

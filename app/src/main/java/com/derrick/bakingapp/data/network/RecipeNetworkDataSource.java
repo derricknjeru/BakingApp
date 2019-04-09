@@ -13,6 +13,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.derrick.bakingapp.data.network.RecipeIntentService.FETCH_RECIPE_FROM_INTERNET;
+
 public class RecipeNetworkDataSource {
 
     private static final String LOG_TAG = RecipeNetworkDataSource.class.getSimpleName();
@@ -75,6 +77,7 @@ public class RecipeNetworkDataSource {
      */
     public void StartService() {
         Intent i = new Intent(mContext, RecipeIntentService.class);
+        i.setAction(FETCH_RECIPE_FROM_INTERNET);
         mContext.startService(i);
     }
 

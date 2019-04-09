@@ -1,16 +1,11 @@
 package com.derrick.bakingapp.UI.main;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Recipe;
-import com.derrick.bakingapp.data.local.Step;
 import com.derrick.bakingapp.databinding.RecipeRowBinding;
 
 import java.util.List;
@@ -18,8 +13,6 @@ import java.util.List;
 import static android.text.TextUtils.isEmpty;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeViewHolder> {
-
-    private static final String LOG_TAG = RecipeListAdapter.class.getSimpleName();
 
     public void setRecipeList(List<Recipe> mRecipeList) {
         this.mRecipeList = mRecipeList;
