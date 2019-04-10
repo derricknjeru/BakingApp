@@ -1,6 +1,7 @@
 # BakingApp
 
-<img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_1.png" height="500">| <img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_2.png" height="500">
+<img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_1.png" height="500">| <img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_2.png" height="500">|<img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_3.png" height="500">
+<img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_4.png" height="500">
 
 ## Getting Started
 
