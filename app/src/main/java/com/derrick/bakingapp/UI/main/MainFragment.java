@@ -18,6 +18,7 @@ import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Recipe;
 import com.derrick.bakingapp.databinding.FragmentMainBinding;
 import com.derrick.bakingapp.utils.BakingPreference;
+import com.derrick.bakingapp.utils.EspressoIdlingResource;
 import com.derrick.bakingapp.utils.InjectorUtils;
 import com.derrick.bakingapp.utils.LogUtils;
 
@@ -35,6 +36,7 @@ public class MainFragment extends Fragment implements RecipeListAdapter.RecipeCL
 
     OnRecipeClickListener mCallBack;
     private int numberOfColumns = 3;
+
 
     public interface OnRecipeClickListener {
         void itemSelected(int recipeId, String title);
@@ -62,10 +64,10 @@ public class MainFragment extends Fragment implements RecipeListAdapter.RecipeCL
     private void fetchRecipes() {
         MainViewModelFactory factory = InjectorUtils.provideMainViewModelFactory(getActivity());
         MainActivityViewModel mViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
+// The IdlingResource is null in production.
 
         mViewModel.getRecipeListLiveData().observe(this, recipes -> {
             LogUtils.showLog(LOG_TAG, "@Recipe total size::" + recipes);
-
             if (recipes != null && recipes.size() > 0) {
                 showRecipeDataView(recipes);
 
@@ -74,10 +76,19 @@ public class MainFragment extends Fragment implements RecipeListAdapter.RecipeCL
     }
 
     private void showLoading() {
+        // The network request might be handled in a different thread so make sure Espresso knows
+        // that the app is busy until the response is handled.
+        EspressoIdlingResource.increment(); // App is busy until further notice
         binding.contentProgressBar.show();
     }
 
     private void showRecipeDataView(List<Recipe> recipes) {
+        // now that the data has been loaded, we can mark the app as idle
+        // first, make sure the app is still marked as busy then decrement, there might be cases
+        // when other components finished their asynchronous tasks and marked the app as idle
+        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+            EspressoIdlingResource.decrement(); // Set app as idle.
+        }
         binding.contentProgressBar.hide();
         mListAdapter.setRecipeList(recipes);
     }
@@ -127,4 +138,6 @@ public class MainFragment extends Fragment implements RecipeListAdapter.RecipeCL
         BakingPreference.setTotalStepQuery(getActivity(), totalSteps);
         mCallBack.itemSelected(id, title);
     }
+
+
 }

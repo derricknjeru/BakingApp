@@ -2,6 +2,7 @@ package com.derrick.bakingapp.UI.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -10,7 +11,7 @@ import com.derrick.bakingapp.UI.details.DetailsActivity;
 import com.derrick.bakingapp.utils.BakingPreference;
 import com.derrick.bakingapp.utils.LogUtils;
 
-import static com.derrick.bakingapp.UI.details.DetailsActivity.*;
+import static com.derrick.bakingapp.UI.details.DetailsActivity.EXTRA_TITLE;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnRecipeClickListener {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -22,6 +23,19 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnRe
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        // In two-pane mode, add initial BodyPartFragments to the screen
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a new Master list fragment
+        MainFragment mainFragment = new MainFragment();
+
+
+        // Add the fragment to its container using a transaction
+        fragmentManager.beginTransaction()
+                .add(R.id.main_fragment, mainFragment)
+                .commit();
+
     }
 
     @Override
@@ -32,4 +46,5 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnRe
         i.putExtra(EXTRA_TITLE, title);
         startActivity(i);
     }
+
 }

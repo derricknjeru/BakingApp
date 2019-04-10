@@ -15,16 +15,14 @@ import com.derrick.bakingapp.utils.LogUtils;
 public class DetailsActivity extends AppCompatActivity implements MasterListFragment.OnMasterListStepCLick {
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_ID = "id";
-    public static final String EXTRA_ = "id";
     private static final String LOG_TAG = DetailsActivity.class.getSimpleName();
-    public static final String ACTION_OPEN_WIDGET = "open";
     private String title;
-    private int id;
 
 
     // Track whether to display a two-pane or single-pane UI
     // A single-pane display refers to phone screens, and two-pane to larger tablet screens
     private boolean isTablet;
+
 
     @Override
     protected void onRestart() {
@@ -36,11 +34,13 @@ public class DetailsActivity extends AppCompatActivity implements MasterListFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getIntent() != null) {
             title = getIntent().getStringExtra(EXTRA_TITLE);
+            getSupportActionBar().setTitle(title);
         }
 
         isTablet = getResources().getBoolean(R.bool.isTablet);
@@ -51,7 +51,8 @@ public class DetailsActivity extends AppCompatActivity implements MasterListFrag
             }
         }
 
-        getSupportActionBar().setTitle(title);
+        toolbar.getTitle();
+
 
     }
 

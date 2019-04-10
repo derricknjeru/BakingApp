@@ -92,7 +92,8 @@ public class MasterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private void displaySteps(MasterListStepsRowBinding mRowBinding, int pos) {
         Step step = mStepList.get(pos - 1);
 
-        LogUtils.showLog(LOG_TAG, "@Fetched step::" + step);
+        LogUtils.showLog(LOG_TAG, "@Fetched pos::" + pos);
+
         if (!isEmpty(step.getShortDescription())) {
             mRowBinding.stepTitle.setText(step.getShortDescription());
         }

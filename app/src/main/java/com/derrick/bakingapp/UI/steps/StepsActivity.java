@@ -9,12 +9,6 @@ import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.utils.BakingPreference;
 
 public class StepsActivity extends AppCompatActivity {
-    public static final String EXTRA_ID = "step_id";
-    public static final String EXTRA_POS = "pos";
-    public static final String EXTRA_TOTAL_STEPS = "steps_total";
-    private static final String LOG_TAG = StepsActivity.class.getSimpleName();
-    private long recipe_id;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
