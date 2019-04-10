@@ -14,7 +14,6 @@ import com.derrick.bakingapp.utils.LogUtils;
 
 public class DetailsActivity extends AppCompatActivity implements MasterListFragment.OnMasterListStepCLick {
     public static final String EXTRA_TITLE = "title";
-    public static final String EXTRA_ID = "id";
     private static final String LOG_TAG = DetailsActivity.class.getSimpleName();
     private String title;
 

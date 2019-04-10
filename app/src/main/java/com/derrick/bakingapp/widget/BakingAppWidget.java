@@ -5,11 +5,12 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.UI.details.DetailsActivity;
-import com.derrick.bakingapp.UI.main.MainActivity;
 import com.derrick.bakingapp.data.local.Recipe;
 import com.derrick.bakingapp.utils.BakingPreference;
 import com.derrick.bakingapp.utils.LogUtils;
@@ -17,8 +18,6 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-import static com.derrick.bakingapp.UI.details.DetailsActivity.*;
-import static com.derrick.bakingapp.UI.details.DetailsActivity.EXTRA_ID;
 import static com.derrick.bakingapp.UI.details.DetailsActivity.EXTRA_TITLE;
 import static com.derrick.bakingapp.widget.WidgetIntentService.UPDATE_THE_WIDGET;
 
@@ -46,15 +45,18 @@ public class BakingAppWidget extends AppWidgetProvider {
 
         views.setRemoteAdapter(R.id.appwidget_list, i);
 
-        //Open details activity
-        Intent intent = new Intent(context, DetailsActivity.class);
+        // This section makes it possible for items to have individualized behavior.
+        // It does this by setting up a pending intent template. Individuals items of a collection
+        // cannot set up their own pending intents. Instead, the collection as a whole sets
+        // up a pending intent template, and the individual items set a fillInIntent
+        // to create unique behavior on an item-by-item basis.
+        Intent clickIntent = new Intent(context, DetailsActivity.class);
 
-        intent.putExtra(EXTRA_TITLE, recipe.get(0).getName());
+        PendingIntent clickPI = PendingIntent.getActivity(context, 0,
+                clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setPendingIntentTemplate(R.id.appwidget_list, clickPI);
 
-        // Widgets allow click handlers to only launch pending intents
-        views.setOnClickPendingIntent(R.id.main_widget_view, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Step;
@@ -35,7 +36,7 @@ import static com.derrick.bakingapp.widget.WidgetIntentService.UPDATE_THE_WIDGET
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MasterListFragment extends Fragment implements MasterListAdapter.OnStepClickListener{
+public class MasterListFragment extends Fragment implements MasterListAdapter.OnStepClickListener {
     private static final String LOG_TAG = MasterListFragment.class.getSimpleName();
     private int recipeId;
     private FragmentMasterListBinding binding;
@@ -147,6 +148,8 @@ public class MasterListFragment extends Fragment implements MasterListAdapter.On
                 i.setAction(UPDATE_THE_WIDGET);
                 WidgetIntentService.enqueueWork(getActivity(), i);
             });
+
+            Toast.makeText(getActivity(), "added to widget", Toast.LENGTH_LONG).show();
 
         }
         return super.onOptionsItemSelected(item);

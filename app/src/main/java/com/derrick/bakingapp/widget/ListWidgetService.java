@@ -28,27 +28,15 @@ public class ListWidgetService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new ListRemoteViewsFactory(this.getApplicationContext(), intent);
+        return new ListRemoteViewsFactory(this.getApplicationContext());
     }
 
     private class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Context mContext;
         List<Ingredient> mRecipeRecipeList = null;
 
-        public ListRemoteViewsFactory(Context applicationContext, Intent intent) {
+        public ListRemoteViewsFactory(Context applicationContext) {
             mContext = applicationContext;
-
-            LogUtils.showLog(LOG_TAG, "@widget is called constructor intent");
-
-            String jsonString = BakingPreference.getSavedJson(mContext);
-            LogUtils.showLog(LOG_TAG, "@widget is called onGetViewFactory jsonString" + jsonString);
-
-            if (!TextUtils.isEmpty(jsonString)) {
-                mRecipeRecipeList = getRecipeList(jsonString);
-            }
-
-            LogUtils.showLog(LOG_TAG, "@widget is called onGetViewFactory mRecipeRecipeList" + mRecipeRecipeList);
-
         }
 
         private List<Ingredient> getRecipeList(String jsonString) {
@@ -94,6 +82,17 @@ public class ListWidgetService extends RemoteViewsService {
             LogUtils.showLog(LOG_TAG, "@widget is called position" + position);
 
             RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.row_widget);
+            // Next, set a fill-intent, which will be used to fill in the pending intent template
+            // that is set on the collection view in StackWidgetProvider.
+            String name = BakingPreference.getDisplayedWidget(mContext);
+
+            Bundle extras = new Bundle();
+            extras.putString(EXTRA_TITLE, name);
+            Intent fillInIntent = new Intent();
+            fillInIntent.putExtras(extras);
+            // Make it possible to distinguish the individual on-click
+            // action of a given item
+            views.setOnClickFillInIntent(R.id.row_id, fillInIntent);
 
             Ingredient mIngredient = mRecipeRecipeList.get(position);
 
@@ -101,14 +100,10 @@ public class ListWidgetService extends RemoteViewsService {
                     mContext.getString(R.string.open_blacket) + mIngredient.getQuantity() + " "
                     + mIngredient.getMeasure() + mContext.getString(R.string.closing_blacket));
 
-            String name = BakingPreference.getDisplayedWidget(mContext);
 
 
-            Intent i = new Intent(mContext, DetailsActivity.class);
-            Bundle extras = new Bundle();
-            extras.putString(EXTRA_TITLE, name);
-            i.putExtras(extras);
-            views.setOnClickFillInIntent(R.id.row_id, i);
+
+
 
             return views;
         }

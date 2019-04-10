@@ -6,14 +6,13 @@
     android:background="@color/colorPrimary"
     android:clickable="true"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:padding="@dimen/layout_margin">
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/widget_recipe_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
         android:fontFamily="@font/roboto"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -21,8 +20,8 @@
 
     <ListView
         android:id="@+id/appwidget_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/widget_recipe_title"
         android:clickable="true"
         android:divider="@color/white" />
