@@ -1,6 +1,6 @@
 # BakingApp
 
-<img src="https://github.com/derricknjeru/popular-movies-stage-2/blob/master/art/home.png" height="500">| <img src="https://github.com/derricknjeru/popular-movies-stage-2/blob/master/art/details_page.png" height="500">
+<img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_1.png" height="500">| <img src="https://github.com/derricknjeru/BakingApp/blob/master/art/image_2.png" height="500">
 
 ## Getting Started
 
