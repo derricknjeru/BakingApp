@@ -26,6 +26,7 @@
         <activity
             android:name=".UI.steps.StepsActivity"
             android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:parentActivityName=".UI.details.DetailsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -36,6 +37,7 @@
             android:name=".UI.details.DetailsActivity"
             android:label="@string/title_activity_details"
             android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:parentActivityName=".UI.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

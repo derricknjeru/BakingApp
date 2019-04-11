@@ -3,6 +3,7 @@ package com.derrick.bakingapp.UI.steps;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.derrick.bakingapp.R;
 import com.derrick.bakingapp.data.local.Step;
@@ -29,6 +31,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +50,7 @@ public class StepsFragment extends Fragment implements View.OnClickListener {
     private int currentWindow;
     private boolean playWhenReady = true;
     private MediaSource mediaSource;
+    private boolean isLand;
 
 
     public StepsFragment() {
@@ -58,19 +62,19 @@ public class StepsFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_steps, container, false);
 
         playerView = binding.videoView;
 
-
         StepsFragmentViewModelFactory factory = InjectorUtils.provideStepsFragmentViewModelFactory(getActivity(), BakingPreference.getStepRecipeIdQuery(getActivity()));
         mViewModel = ViewModelProviders.of(getActivity(), factory).get(StepsFragmentViewModel.class);
-
 
         binding.count.setText((BakingPreference.getStepPosQuery(getActivity()) + 1) + getString(R.string.of) + BakingPreference.getTotalStepPosQuery(getActivity()));
 
         binding.arrowRight.setOnClickListener(this);
         binding.arrowLeft.setOnClickListener(this);
+
 
         hideArrows();
 
@@ -78,40 +82,72 @@ public class StepsFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            hideViews(View.GONE);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            hideViews(View.VISIBLE);
+        }
+    }
+
+    private void hideViews(int visibility) {
+        binding.linearLayout.setVisibility(visibility);
+        binding.stepDesc.setVisibility(visibility);
+    }
+
 
     public void setList(int step_id) {
         mViewModel.getStepsListLiveData().observe(this, recipeList -> {
             if (recipeList != null && recipeList.size() > 0) {
-
                 //will always be one
                 Step step = recipeList.get(0).getSteps().get(step_id);
 
                 if (step != null) {
-
-                    binding.stepDesc.setText(step.getDescription());
-
-                    LogUtils.showLog(LOG_TAG, "@Steps player::" + (player != null));
-
-                    LogUtils.showLog(LOG_TAG, "@Steps fragment step.getVideoURL()::" + step.getVideoURL());
-
-                    if (!TextUtils.isEmpty(step.getVideoURL())) {
-                        mediaSource = buildMediaSource(Uri.parse(step.getVideoURL()));
-                        if (player != null) {
-                            player.prepare(mediaSource);
-                        }
-                    } else {
-                        mediaSource = null;
-                        if (player != null) {
-                            playerView.setDefaultArtwork(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.question_mark));
-                            player.prepare(mediaSource);
-                        }
-                    }
-
+                    populateUI(step);
                 }
-
             }
 
         });
+    }
+
+    private void populateUI(Step step) {
+        if (!TextUtils.isEmpty(step.getDescription())) {
+            binding.stepDesc.setVisibility(View.VISIBLE);
+            binding.stepDesc.setText(step.getDescription());
+        } else {
+            binding.stepDesc.setVisibility(View.GONE);
+        }
+
+        LogUtils.showLog(LOG_TAG, "@Steps player::" + (player != null));
+
+        LogUtils.showLog(LOG_TAG, "@Steps fragment step.getVideoURL()::" + step.getVideoURL());
+
+        if (!TextUtils.isEmpty(step.getVideoURL())) {
+            mediaSource = buildMediaSource(Uri.parse(step.getVideoURL()));
+            if (player != null) {
+                player.prepare(mediaSource);
+            }
+        } else {
+            mediaSource = null;
+            if (player != null) {
+                playerView.setDefaultArtwork(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.question_mark));
+                player.prepare(mediaSource);
+            }
+        }
+
+        if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+            hideThumbnailImage(binding.thumbnail, View.VISIBLE);
+            Picasso.get().load(step.getThumbnailURL()).into(binding.thumbnail);
+        } else {
+            hideThumbnailImage(binding.thumbnail, View.GONE);
+        }
+    }
+
+    private void hideThumbnailImage(ImageView thumbnail, int visibility) {
+        thumbnail.setVisibility(visibility);
     }
 
 
@@ -171,6 +207,7 @@ public class StepsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+
         hideSystemUi();
         if ((Util.SDK_INT <= 23 || player == null)) {
             initializePlayer();
